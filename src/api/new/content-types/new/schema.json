@@ -32,7 +32,8 @@
         }
       },
       "type": "uid",
-      "targetField": "title"
+      "targetField": "title",
+      "required": true
     },
     "desc": {
       "type": "text",
@@ -42,10 +43,10 @@
         }
       }
     },
-    "mainImage": {
+    "featuredImage": {
       "type": "media",
       "multiple": false,
-      "required": false,
+      "required": true,
       "allowedTypes": [
         "images",
         "files",
@@ -102,7 +103,8 @@
         "i18n": {
           "localized": true
         }
-      }
+      },
+      "default": "standard"
     },
     "content": {
       "pluginOptions": {
@@ -119,8 +121,9 @@
     },
     "categories": {
       "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::category.category"
+      "relation": "manyToMany",
+      "target": "api::category.category",
+      "mappedBy": "news"
     },
     "relatedNews": {
       "type": "relation",
