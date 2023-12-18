@@ -1060,16 +1060,6 @@ export interface ApiAuthorAuthor extends Schema.CollectionType {
     avatar: Attribute.Media & Attribute.Required;
     desc: Attribute.Text;
     socialLink: Attribute.String;
-    saveNews: Attribute.Relation<
-      'api::author.author',
-      'oneToMany',
-      'api::new.new'
-    >;
-    favouriteNews: Attribute.Relation<
-      'api::author.author',
-      'oneToMany',
-      'api::new.new'
-    >;
     adminUser: Attribute.Relation<
       'api::author.author',
       'oneToOne',
@@ -1091,6 +1081,46 @@ export interface ApiAuthorAuthor extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::author.author',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiBookmarkBookmark extends Schema.CollectionType {
+  collectionName: 'bookmarks';
+  info: {
+    singularName: 'bookmark';
+    pluralName: 'bookmarks';
+    displayName: 'Bookmark';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    user: Attribute.Relation<
+      'api::bookmark.bookmark',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    new: Attribute.Relation<
+      'api::bookmark.bookmark',
+      'oneToOne',
+      'api::new.new'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::bookmark.bookmark',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::bookmark.bookmark',
       'oneToOne',
       'admin::user'
     > &
@@ -1134,6 +1164,30 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
       'oneToOne',
       'admin::user'
     > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiLikeLike extends Schema.CollectionType {
+  collectionName: 'likes';
+  info: {
+    singularName: 'like';
+    pluralName: 'likes';
+    displayName: 'Like';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    new: Attribute.Relation<'api::like.like', 'oneToOne', 'api::new.new'>;
+    user_id: Attribute.Integer;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::like.like', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::like.like', 'oneToOne', 'admin::user'> &
       Attribute.Private;
   };
 }
@@ -1235,6 +1289,20 @@ export interface ApiNewNew extends Schema.CollectionType {
       'manyToOne',
       'api::author.author'
     >;
+    likeCount: Attribute.Integer &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<0>;
+    commentCount: Attribute.Integer &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<0>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1275,7 +1343,9 @@ declare module '@strapi/types' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::publisher.action': PluginPublisherAction;
       'api::author.author': ApiAuthorAuthor;
+      'api::bookmark.bookmark': ApiBookmarkBookmark;
       'api::category.category': ApiCategoryCategory;
+      'api::like.like': ApiLikeLike;
       'api::new.new': ApiNewNew;
     }
   }

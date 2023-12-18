@@ -37,16 +37,6 @@
     "socialLink": {
       "type": "string"
     },
-    "saveNews": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::new.new"
-    },
-    "favouriteNews": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::new.new"
-    },
     "adminUser": {
       "type": "relation",
       "relation": "oneToOne",
@@ -68,15 +58,15 @@
       "default": "Author Job"
     },
     "bgImage": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false,
-      "required": true
+      ]
     }
   }
 }

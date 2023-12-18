@@ -135,6 +135,24 @@
       "relation": "manyToOne",
       "target": "api::author.author",
       "inversedBy": "news"
+    },
+    "likeCount": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "integer",
+      "default": 0
+    },
+    "commentCount": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "integer",
+      "default": 0
     }
   }
 }
