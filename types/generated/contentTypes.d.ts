@@ -1100,16 +1100,12 @@ export interface ApiBookmarkBookmark extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    user: Attribute.Relation<
-      'api::bookmark.bookmark',
-      'oneToOne',
-      'plugin::users-permissions.user'
-    >;
     new: Attribute.Relation<
       'api::bookmark.bookmark',
       'oneToOne',
       'api::new.new'
     >;
+    user_id: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1289,20 +1285,6 @@ export interface ApiNewNew extends Schema.CollectionType {
       'manyToOne',
       'api::author.author'
     >;
-    likeCount: Attribute.Integer &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }> &
-      Attribute.DefaultTo<0>;
-    commentCount: Attribute.Integer &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }> &
-      Attribute.DefaultTo<0>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
