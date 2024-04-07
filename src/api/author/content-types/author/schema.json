@@ -23,7 +23,7 @@
     "avatar": {
       "type": "media",
       "multiple": false,
-      "required": true,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
@@ -50,8 +50,7 @@
       "mappedBy": "author"
     },
     "avatarUrl": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "jobName": {
       "type": "string",
@@ -60,13 +59,19 @@
     "bgImage": {
       "type": "media",
       "multiple": false,
-      "required": true,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
       ]
+    },
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "author"
     }
   }
 }

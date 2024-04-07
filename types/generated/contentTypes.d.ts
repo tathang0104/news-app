@@ -23,7 +23,6 @@ export interface AdminPermission extends Schema.CollectionType {
       Attribute.SetMinMaxLength<{
         minLength: 1;
       }>;
-    actionParameters: Attribute.JSON & Attribute.DefaultTo<{}>;
     subject: Attribute.String &
       Attribute.SetMinMaxLength<{
         minLength: 1;
@@ -985,6 +984,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
+    author: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToOne',
+      'api::author.author'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1057,7 +1061,7 @@ export interface ApiAuthorAuthor extends Schema.CollectionType {
   attributes: {
     displayName: Attribute.String & Attribute.Required;
     slug: Attribute.UID<'api::author.author', 'displayName'>;
-    avatar: Attribute.Media & Attribute.Required;
+    avatar: Attribute.Media;
     desc: Attribute.Text;
     socialLink: Attribute.String;
     adminUser: Attribute.Relation<
@@ -1067,9 +1071,14 @@ export interface ApiAuthorAuthor extends Schema.CollectionType {
     > &
       Attribute.Private;
     news: Attribute.Relation<'api::author.author', 'oneToMany', 'api::new.new'>;
-    avatarUrl: Attribute.String & Attribute.Required;
+    avatarUrl: Attribute.String;
     jobName: Attribute.String & Attribute.DefaultTo<'Author Job'>;
-    bgImage: Attribute.Media & Attribute.Required;
+    bgImage: Attribute.Media;
+    user: Attribute.Relation<
+      'api::author.author',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1301,7 +1310,7 @@ export interface ApiNewNew extends Schema.CollectionType {
   };
 }
 
-declare module '@strapi/types' {
+declare module '@strapi/strapi' {
   export module Shared {
     export interface ContentTypes {
       'admin::permission': AdminPermission;
